@@ -127,10 +127,10 @@
 					<lit-tag v="nom"/>
 				</lu>
 			</out>
-		</action -->
+		</action>
 
 
-	</rule>
+	</rule -->
 
   </section-rules>
 </transfer>
