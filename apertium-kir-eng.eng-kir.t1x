@@ -124,7 +124,9 @@
 			<out>
 				<chunk name="pronoun" case="caseFirstWord">
 					<tags>
-						<tag><lit-tag v="default"/></tag>
+						<tag>
+							<clip pos="1" side="tl" part="case"/>
+						</tag>
 					</tags>
 					<lu>
 						<clip pos="1" side="tl" part="lem"/>
