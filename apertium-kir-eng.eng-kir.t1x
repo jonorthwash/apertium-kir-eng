@@ -13,7 +13,18 @@
 		<def-cat n="pron_subj">
 			<cat-item tags="prn.subj.*"/>
 		</def-cat>
-
+		<def-cat n="definites">
+			<cat-item tags="det.def.*"/>
+			<cat-item tags="det.dem.*"/>
+			<cat-item tags="det.pos.*"/>
+		</def-cat>
+		<def-cat n="noun">
+			<cat-item tags="n.*"/>
+		</def-cat>
+		<def-cat n="verb">
+			<cat-item tags="v.*"/>
+			<cat-item tags="vblex.*"/>
+		</def-cat>
   </section-def-cats>
 
 	<section-def-attrs>
@@ -42,6 +53,19 @@
 		<def-attr n="num">
 			<attr-item tags="sg"/>
 			<attr-item tags="pl"/>
+		</def-attr>
+		<def-attr n="poss">
+			<attr-item tags="px1sg"/>
+			<attr-item tags="px1pl"/>
+			<attr-item tags="px2sg"/>
+			<attr-item tags="px2pl"/>
+			<attr-item tags="px3sp"/>
+		</def-attr>
+		<def-attr n="frm">
+			<attr-item tags="frm"/>
+		</def-attr>
+		<def-attr n="neg">
+			<attr-item tags="neg"/>
 		</def-attr>
 
 	</section-def-attrs>
@@ -83,34 +107,109 @@
 			<pattern-item n="pron"/>
 		</pattern>
 		<action>
-			<out>
-				<lu>
-					<clip pos="1" side="tl" part="lem"/>
-					<clip pos="1" side="tl" part="pos"/>
-					<lit-tag v="pers"/>
-					<clip pos="1" side="tl" part="pers"/>
-					<clip pos="1" side="tl" part="num"/>
-					<clip pos="1" side="tl" part="case"/>
-				</lu>
-			</out>
 			<choose>
 				<when>
 					<test>
-						<equal caseless="yes">
+						<equal>
 							<clip pos="1" side="sl" part="e_case"/>
 							<lit-tag v="subj"/>
 						</equal>
 					</test>
 					<let>
-						<clip pos="1" side="tl" part="case"/>
+						<clip pos="1" side="tl" part="e_case"/>
 						<lit-tag v="nom"/>
 					</let>
 				</when>
 			</choose>
+			<out>
+				<chunk name="pronoun" case="caseFirstWord">
+					<tags>
+						<tag><lit-tag v="default"/></tag>
+					</tags>
+					<lu>
+						<clip pos="1" side="tl" part="lem"/>
+						<clip pos="1" side="tl" part="pos"/>
+						<lit-tag v="pers"/>
+						<clip pos="1" side="tl" part="pers"/>
+						<clip pos="1" side="tl" part="num"/>
+						<clip pos="1" side="tl" part="case"/>
+					</lu>
+				</chunk>
+			</out>
 		</action>
-
-
 	</rule>
+
+	<rule comment="REGLA: mark definite verb object with acc">
+		<pattern>
+			<pattern-item n="verb"/>
+			<pattern-item n="definites"/>
+			<pattern-item n="noun"/>
+		</pattern>
+		<action>
+			<out>
+				<chunk name="object" case="caseFirstWord">
+					<tags>
+						<tag><lit-tag v="default"/></tag>
+					</tags>
+					<lu>
+						<clip pos="2" side="tl" part="whole"/>
+					</lu>
+					<lu>
+						<clip pos="3" side="tl" part="lem"/>
+						<clip pos="3" side="tl" part="pos"/>
+						<clip pos="3" side="tl" part="num"/>
+						<clip pos="3" side="tl" part="poss"/>
+						<clip pos="3" side="tl" part="frm"/>
+						<lit-tag v="acc"/>
+					</lu>
+				</chunk>
+				<b pos="1"/>
+				<chunk name="verb" case="caseFirstWord">
+					<tags>
+						<tag><lit-tag v="default"/></tag>
+					</tags>
+
+					<lu>
+						<clip pos="1" side="tl" part="whole"/>
+					</lu>
+				</chunk>
+			</out>
+		</action>
+	</rule>
+
+	<!-- rule comment="REGLA: subj v → v with person and number tags">
+		<pattern>
+			<pattern-item n="pron_subj"/>
+			<pattern-item n="verb"/>
+		</pattern>
+		<action>
+			<out>
+				<chunk name="subject" case="caseFirstWord">
+					<tags>
+						<tag><lit-tag v="default"/></tag>
+					</tags>
+					<lu>
+						<clip pos="1" side="tl" part="whole"/>
+					</lu>
+				</chunk>
+				<b pos="1"/>
+				<chunk name="verb" case="caseFirstWord">
+					<tags>
+						<tag><lit-tag v="default"/></tag>
+					</tags>
+					<lu>
+						<clip pos="2" side="tl" part="lem"/>
+						<clip pos="2" side="tl" part="pos"/>
+						<clip pos="2" side="tl" part="neg"/>
+						<clip pos="2" side="tl" part="tense"/>
+						<clip pos="2" side="tl" part="pers"/>
+						<clip pos="2" side="tl" part="frm"/>
+						<clip pos="2" side="tl" part="num"/>
+					</lu>
+				</chunk>
+			</out>
+		</action>
+	</rule -->
 
 	<!-- rule comment="REGLA: make subj pronouns nominative">
 		<pattern>
