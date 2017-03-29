@@ -69,6 +69,8 @@
 
     <sdef n="inf"             c="Infinitive"/>
     <sdef n="pres"            c="Present"/>
+    <sdef n="past"            c="Past"/>
+    <sdef n="fut"             c="Future"/>
     <sdef n="imp"             c="Imperative"/>
     <sdef n="pret"            c="Preterite"/>
     <sdef n="pp"              c="Perfect participle"/>
@@ -104,6 +106,9 @@
       <e><p><l>үй<s n="n"/></l><r>house<s n="n"/></r></p></e>
 
       <e><p><l>көр<s n="v"/><s n="tv"/></l><r>see<s n="vblex"/></r></p></e>
+
+      <e r="RL"><p><l></l><r>do<s n="vaux"/></r></p></e>
+      <e r="RL"><p><l></l><r>not<s n="adv"/></r></p></e>
       
 		<e><p><l>мен<s n="prn"/></l><r>prpers<s n="prn"/></r></p></e>
       <e r="RL"><p><l></l><r>the<s n="det"/><s n="def"/><s n="sp"/></r></p></e>

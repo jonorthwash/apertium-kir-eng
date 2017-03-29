@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <transfer default="chunk">
-  <section-def-cats>
-	<def-cat n="nom">
-	  <cat-item tags="n.*"/>
-	</def-cat>
-	<def-cat n="sent">
-	  <cat-item tags="sent"/>
-	</def-cat>
+	<section-def-cats>
+		<def-cat n="nom">
+			<cat-item tags="n.*"/>
+		</def-cat>
+		<def-cat n="sent">
+			<cat-item tags="sent"/>
+		</def-cat>
 		<def-cat n="pron">
 			<cat-item tags="prn.*"/>
 		</def-cat>
@@ -25,7 +25,13 @@
 			<cat-item tags="v.*"/>
 			<cat-item tags="vblex.*"/>
 		</def-cat>
-  </section-def-cats>
+		<def-cat n="do-vaux">
+			<cat-item lemma="do" tags="vaux.*"/>
+		</def-cat>
+		<def-cat n="not">
+			<cat-item lemma="not" tags="adv"/>
+		</def-cat>
+	</section-def-cats>
 
 	<section-def-attrs>
 		<def-attr n="pos">
@@ -67,7 +73,18 @@
 		<def-attr n="neg">
 			<attr-item tags="neg"/>
 		</def-attr>
-
+		<def-attr n="trans">
+			<attr-item tags="iv"/>
+			<attr-item tags="tv"/>
+			<attr-item tags="TD"/>
+		</def-attr>
+		<def-attr n="tense">
+			<attr-item tags="past"/>
+			<attr-item tags="ifi"/>
+			<attr-item tags="pres"/>
+			<attr-item tags="aor"/>
+			<attr-item tags="fut"/>
+		</def-attr>
 	</section-def-attrs>
 
   <section-def-vars>
@@ -135,6 +152,33 @@
 						<clip pos="1" side="tl" part="pers"/>
 						<clip pos="1" side="tl" part="num"/>
 						<clip pos="1" side="tl" part="case"/>
+					</lu>
+				</chunk>
+			</out>
+		</action>
+	</rule>
+
+	<rule comment="REGLA: do/did not v">
+		<pattern>
+			<pattern-item n="do-vaux"/>
+			<pattern-item n="not"/>
+			<pattern-item n="verb"/>
+		</pattern>
+		<action>
+			<out>
+				<chunk name="verb" case="caseFirstWord">
+					<tags>
+						<tag><lit-tag v="default"/></tag>
+					</tags>
+					<lu>
+						<clip pos="3" side="tl" part="lem"/>
+						<lit-tag v="v"/>
+						<clip pos="3" side="tl" part="trans"/>
+						<lit-tag v="neg"/>
+						<clip pos="1" side="tl" part="tense"/>
+						<clip pos="1" side="tl" part="pers"/>
+						<clip pos="1" side="tl" part="frm"/>
+						<clip pos="1" side="tl" part="num"/>
 					</lu>
 				</chunk>
 			</out>
