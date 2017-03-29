@@ -56,6 +56,7 @@
 		<def-attr n="case">
 			<attr-item tags="nom"/>
 			<attr-item tags="acc"/>
+			<attr-item tags="CD"/>
 		</def-attr>
 		<def-attr n="pron_type">
 			<attr-item tags="pers"/>
@@ -65,10 +66,12 @@
 			<attr-item tags="p1"/>
 			<attr-item tags="p2"/>
 			<attr-item tags="p3"/>
+			<attr-item tags="PD"/>
 		</def-attr>
 		<def-attr n="num">
 			<attr-item tags="sg"/>
 			<attr-item tags="pl"/>
+			<attr-item tags="ND"/>
 		</def-attr>
 		<def-attr n="poss">
 			<attr-item tags="px1sg"/>
@@ -79,6 +82,7 @@
 		</def-attr>
 		<def-attr n="frm">
 			<attr-item tags="frm"/>
+			<attr-item tags="FD"/>
 		</def-attr>
 		<def-attr n="neg">
 			<attr-item tags="neg"/>
@@ -94,6 +98,7 @@
 			<attr-item tags="pres"/>
 			<attr-item tags="aor"/>
 			<attr-item tags="fut"/>
+			<attr-item tags="TnsD"/>
 		</def-attr>
 	</section-def-attrs>
 
@@ -171,6 +176,8 @@
 					<lit-tag v="CD"/>
 				</concat>
 			</let>
+			<let><var n="person"/><clip pos="1" side="sl" part="pers"/></let>
+			<let><var n="number"/><clip pos="1" side="sl" part="num"/></let>
 			<out>
 				<chunk name="pr" case="caseFirstWord">
 					<tags>
@@ -272,8 +279,9 @@
 		</pattern>
 		<action>
 			<out>
-				<chunk name="SN" case="caseFirstWord">
+				<chunk name="n" case="caseFirstWord">
 					<tags>
+						<tag><lit-tag v="SN"/></tag>
 						<tag><lit-tag v="def"/></tag>
 						<tag><lit-tag v="CD"/></tag>
 					</tags>
