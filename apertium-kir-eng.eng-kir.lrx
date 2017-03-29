@@ -10,6 +10,23 @@
       <select lemma="energía" tags="n.*"/>
     </match>
   </rule>
+
+	<rule>
+		<match lemma="prpers" tags="prn.*.p1.*.sg">
+			<select lemma="мен" tags="prn.*"/>
+		</match>
+	</rule>
+	<rule>
+		<match lemma="prpers" tags="prn.*.p2.*.sp">
+			<select lemma="сен" tags="prn.*"/>
+		</match>
+	</rule>
+	<rule>
+		<match lemma="prpers" tags="prn.*.p3.*.sg">
+			<select lemma="ал" tags="prn.*"/>
+		</match>
+	</rule>
+
 </rules>
 
 <!-- 

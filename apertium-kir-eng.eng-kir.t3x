@@ -4,11 +4,17 @@
     <def-cat n="sent">
       <cat-item name="punt"/>
     </def-cat>
+    <def-cat n="SV">
+      <cat-item name="vb"/>
+    </def-cat>
   </section-def-cats>
 
   <section-def-attrs>
     <def-attr n="nbr">
       <attr-item tags="sg"/>
+    </def-attr>
+    <def-attr n="DELETEME">
+      <attr-item tags="FD"/>
     </def-attr>
   </section-def-attrs>
 
@@ -29,7 +35,21 @@
         </out>
       </action>
     </rule>
-  </section-rules>
+		<rule comment="CHUNK: get rid of FD">
+			<pattern>
+				<pattern-item n="SV"/>
+			</pattern>
+			<action>
+				<let><clip pos="1" part="DELETEME"/><lit v=""/></let>
+				<out>
+					<lu>
+						<clip pos="1" part="whole"/>
+					</lu>
+				</out>
+			</action>
+		</rule>
+	
+	</section-rules>
 </postchunk>
 
 <!--
