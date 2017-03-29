@@ -106,6 +106,7 @@
 		<def-var n="number"/>
 		<def-var n="prn-case"/>
 		<def-var n="vb-tense"/>
+		<def-var n="vb-trans"/>
 		<def-var n="person"/>
 		<def-var n="formality"/>
 	</section-def-vars>
@@ -246,12 +247,14 @@
 					</let>
 				</otherwise>
 			</choose>
+			<let><var n="vb-trans"/><clip pos="3" side="tl" part="trans"/></let>
 			<let><var n="vb-tense"/><clip pos="1" side="sl" part="tense"/></let>
 			<let><var n="formality"/><lit-tag v="FD"/></let>
 			<out>
 				<chunk name="vb" case="caseFirstWord">
 					<tags>
 						<tag><lit-tag v="SV"/></tag>
+						<tag><var n="vb-trans"/></tag>
 						<tag><var n="vb-tense"/></tag>
 						<tag><var n="person"/></tag>
 						<tag><var n="formality"/></tag>
@@ -260,12 +263,12 @@
 					<lu>
 						<clip pos="3" side="tl" part="lem"/>
 						<lit-tag v="v"/>
-						<clip pos="3" side="tl" part="trans"/>
+						<clip pos="3" side="tl" part="trans" link-to="2"/>
 						<lit-tag v="neg"/>
-						<clip pos="1" side="tl" part="tense" link-to="2"/>
-						<clip pos="1" side="tl" part="pers" link-to="3"/>
-						<clip pos="1" side="tl" part="frm" link-to="4"/>
-						<clip pos="1" side="tl" part="num" link-to="5"/>
+						<clip pos="1" side="tl" part="tense" link-to="3"/>
+						<clip pos="1" side="tl" part="pers" link-to="4"/>
+						<clip pos="1" side="tl" part="frm" link-to="5"/>
+						<clip pos="1" side="tl" part="num" link-to="6"/>
 					</lu>
 				</chunk>
 			</out>

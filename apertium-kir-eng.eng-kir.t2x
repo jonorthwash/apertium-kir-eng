@@ -1,21 +1,46 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <interchunk>
-  <section-def-cats>
-    <def-cat n="SN">
-      <cat-item tags="SN"/>
-      <cat-item tags="SN.*"/>
-    </def-cat>
-  </section-def-cats>
+	<section-def-cats>
+		<def-cat n="SN">
+			<cat-item tags="SN"/>
+			<cat-item tags="SN.*"/>
+		</def-cat>
+		<def-cat n="SV-tv">
+			<cat-item tags="SV.tv"/>
+			<cat-item tags="SV.tv.*"/>
+		</def-cat>
+		<def-cat n="SN-nom">
+			<cat-item tags="SN.nom"/>
+		</def-cat>
+	</section-def-cats>
 
-  <section-def-attrs>
-    <def-attr n="a_nbr">
-      <attr-item tags="sg"/>
-    </def-attr>
-  </section-def-attrs>
+	<section-def-attrs>
+		<def-attr n="a_nbr">
+			<attr-item tags="sg"/>
+		</def-attr>
+		<def-attr n="a_pers">
+			<attr-item tags="p1"/>
+			<attr-item tags="p2"/>
+			<attr-item tags="p3"/>
+			<attr-item tags="PD"/>
+		</def-attr>
+		<def-attr n="a_num">
+			<attr-item tags="sg"/>
+			<attr-item tags="pl"/>
+			<attr-item tags="ND"/>
+		</def-attr>
+		<def-attr n="a_case">
+			<attr-item tags="nom"/>
+			<attr-item tags="acc"/>
+			<attr-item tags="CD"/>
+		</def-attr>
+	</section-def-attrs>
 
-  <section-def-vars>
-    <def-var n="number"/>
-  </section-def-vars>
+	<section-def-vars>
+		<def-var n="number"/>
+		<def-var n="subj-number"/>
+		<def-var n="subj-person"/>
+	</section-def-vars>
 
   <section-def-macros>
     <def-macro n="test1" npar="1">
@@ -27,7 +52,7 @@
   </section-def-macros>
 
   <section-rules>
-    <rule comment="REGLA: SN">
+    <!-- rule comment="REGLA: SN">
       <pattern>
         <pattern-item n="SN"/>
       </pattern>
@@ -40,7 +65,57 @@
           </chunk>
         </out>
       </action>
-    </rule>
+    </rule -->
+
+	<rule comment="REGLA: remember subject person and number">
+		<pattern>
+			<pattern-item n="SN-nom"/>
+		</pattern>
+		<action>
+			<let><var n="subj-person"/><clip pos="1" part="a_pers"/></let>
+			<let><var n="subj-number"/><clip pos="1" part="a_num"/></let>
+		</action>
+	</rule>
+
+	<rule comment="REGLA: rearrange V.tv and obj, assign case and subj agreement">
+		<pattern>
+			<pattern-item n="SV-tv"/>
+			<pattern-item n="SN"/>
+		</pattern>
+		<action>
+			<choose>
+				<when>
+					<test>
+						<equal>
+							<clip pos="2" part="a_case"/>
+							<lit-tag v="CD"/>
+						</equal>
+					</test>
+					<let>
+						<clip pos="2" part="a_case"/>
+						<lit-tag v="acc"/>
+					</let>
+				</when>
+			</choose>
+			<let><clip pos="1" part="a_num"/><var n="subj-number"/></let>
+			<let><clip pos="1" part="a_pers"/><var n="subj-person"/></let>
+			<out>
+				<chunk>
+					<clip pos="2" part="lem"/>
+					<clip pos="2" part="tags"/>
+					<clip pos="2" part="chcontent"/>
+				</chunk>
+				<b/>
+				<chunk>
+					<clip pos="1" part="lem"/>
+					<clip pos="1" part="tags"/>
+					<clip pos="1" part="chcontent"/>
+				</chunk>
+			</out>
+
+		</action>
+	</rule>
+
   </section-rules>
 </interchunk>
 
