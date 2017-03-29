@@ -11,6 +11,9 @@
 		</def-cat>
 		<def-cat n="SN-nom">
 			<cat-item tags="SN.nom"/>
+			<cat-item tags="SN.nom.*"/>
+			<cat-item tags="SN.*.nom"/>
+			<cat-item tags="SN.*.nom.*"/>
 		</def-cat>
 	</section-def-cats>
 
@@ -74,6 +77,9 @@
 		<action>
 			<let><var n="subj-person"/><clip pos="1" part="a_pers"/></let>
 			<let><var n="subj-number"/><clip pos="1" part="a_num"/></let>
+			<out>
+				<chunk><clip pos="1" part="whole"/></chunk>
+			</out>
 		</action>
 	</rule>
 

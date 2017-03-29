@@ -266,9 +266,12 @@
 						<clip pos="3" side="tl" part="trans" link-to="2"/>
 						<lit-tag v="neg"/>
 						<clip pos="1" side="tl" part="tense" link-to="3"/>
-						<clip pos="1" side="tl" part="pers" link-to="4"/>
+						<!-- clip pos="1" side="tl" part="pers" link-to="4"/>
 						<clip pos="1" side="tl" part="frm" link-to="5"/>
-						<clip pos="1" side="tl" part="num" link-to="6"/>
+						<clip pos="1" side="tl" part="num" link-to="6"/ -->
+						<lit-tag v="4"/><!-- person -->
+						<lit-tag v="5"/><!-- formality -->
+						<lit-tag v="6"/><!-- number -->
 					</lu>
 				</chunk>
 			</out>
@@ -294,7 +297,7 @@
 						<clip pos="2" side="tl" part="num"/>
 						<clip pos="2" side="tl" part="poss"/>
 						<clip pos="2" side="tl" part="frm"/>
-						<clip pos="2" side="tl" part="case" link-to="2"/>
+						<lit-tag v="3"/><!-- case -->
 					</lu>
 				</chunk>
 			</out>
