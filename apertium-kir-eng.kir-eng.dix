@@ -111,6 +111,10 @@
       <e r="RL"><p><l></l><r>not<s n="adv"/></r></p></e>
       
 		<e><p><l>мен<s n="prn"/></l><r>prpers<s n="prn"/></r></p></e>
+		<e><p><l>сен<s n="prn"/></l><r>prpers<s n="prn"/></r></p></e>
+		<e><p><l>сиз<s n="prn"/></l><r>prpers<s n="prn"/></r></p></e>
+		<e><p><l>ал<s n="prn"/></l><r>prpers<s n="prn"/></r></p></e>
+
       <e r="RL"><p><l></l><r>the<s n="det"/><s n="def"/><s n="sp"/></r></p></e>
       <e r="RL"><p><l></l><r>a<s n="det"/><s n="ind"/><s n="sg"/></r></p></e>
 

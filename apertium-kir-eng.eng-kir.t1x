@@ -13,6 +13,10 @@
 		<def-cat n="pron_subj">
 			<cat-item tags="prn.subj.*"/>
 		</def-cat>
+		<def-cat n="pron_subj_obj">
+			<cat-item tags="prn.subj.*"/>
+			<cat-item tags="prn.obj.*"/>
+		</def-cat>
 		<def-cat n="definites">
 			<cat-item tags="det.def.*"/>
 			<cat-item tags="det.dem.*"/>
@@ -25,7 +29,13 @@
 			<cat-item tags="v.*"/>
 			<cat-item tags="vblex.*"/>
 		</def-cat>
-		<def-cat n="do-vaux">
+		<def-cat n="verb_inf">
+			<cat-item tags="v.inf"/>
+			<cat-item tags="v.inf.*"/>
+			<cat-item tags="vblex.inf"/>
+			<cat-item tags="vblex.inf.*"/>
+		</def-cat>
+		<def-cat n="vaux_do">
 			<cat-item lemma="do" tags="vaux.*"/>
 		</def-cat>
 		<def-cat n="not">
@@ -87,9 +97,13 @@
 		</def-attr>
 	</section-def-attrs>
 
-  <section-def-vars>
-	<def-var n="number"/>
-  </section-def-vars>
+	<section-def-vars>
+		<def-var n="number"/>
+		<def-var n="prn-case"/>
+		<def-var n="vb-tense"/>
+		<def-var n="person"/>
+		<def-var n="formality"/>
+	</section-def-vars>
 
   <section-def-macros>
 	<def-macro n="test" npar="1">
@@ -121,7 +135,7 @@
 
 	<rule comment="REGLA: make subj/obj pronouns nom/acc">
 		<pattern>
-			<pattern-item n="pron"/>
+			<pattern-item n="pron_subj_obj"/>
 		</pattern>
 		<action>
 			<choose>
@@ -133,17 +147,37 @@
 						</equal>
 					</test>
 					<let>
-						<clip pos="1" side="tl" part="e_case"/>
+						<var n="prn-case"/>
 						<lit-tag v="nom"/>
 					</let>
 				</when>
+				<when>
+					<test>
+						<equal>
+							<clip pos="1" side="sl" part="e_case"/>
+							<lit-tag v="obj"/>
+						</equal>
+					</test>
+					<let>
+						<var n="prn-case"/>
+						<lit-tag v="acc"/>
+					</let>
+				</when>
 			</choose>
+			<let>
+				<clip pos="1" side="tl" part="whole"/>
+				<concat>
+					<clip pos="1" side="tl" part="whole"/>
+					<lit-tag v="CD"/>
+				</concat>
+			</let>
 			<out>
-				<chunk name="pronoun" case="caseFirstWord">
+				<chunk name="pr" case="caseFirstWord">
 					<tags>
-						<tag>
-							<clip pos="1" side="tl" part="case"/>
-						</tag>
+						<tag><lit-tag v="SN"/></tag>
+						<tag><var n="person"/></tag>
+						<tag><var n="number"/></tag>
+						<tag><var n="prn-case"/></tag>
 					</tags>
 					<lu>
 						<clip pos="1" side="tl" part="lem"/>
@@ -151,7 +185,7 @@
 						<lit-tag v="pers"/>
 						<clip pos="1" side="tl" part="pers"/>
 						<clip pos="1" side="tl" part="num"/>
-						<clip pos="1" side="tl" part="case"/>
+						<clip pos="1" side="tl" part="case" link-to="4"/>
 					</lu>
 				</chunk>
 			</out>
@@ -160,32 +194,104 @@
 
 	<rule comment="REGLA: do/did not v">
 		<pattern>
-			<pattern-item n="do-vaux"/>
+			<pattern-item n="vaux_do"/>
 			<pattern-item n="not"/>
-			<pattern-item n="verb"/>
+			<pattern-item n="verb_inf"/>
 		</pattern>
 		<action>
+			<choose>
+				<when>
+					<test>
+						<equal>
+							<clip pos="1" side="sl" part="pers"/>
+							<lit v=""/>
+						</equal>
+					</test>
+					<let>
+						<var n="person"/>
+						<lit-tag v="PD"/>
+					</let>
+				</when>
+				<otherwise>
+					<let>
+						<var n="person"/>
+						<clip pos="1" side="sl" part="pers"/>
+					</let>
+				</otherwise>
+			</choose>
+			<choose>
+				<when>
+					<test>
+						<equal>
+							<clip pos="1" side="sl" part="num"/>
+							<lit v=""/>
+						</equal>
+					</test>
+					<let>
+						<var n="number"/>
+						<lit-tag v="ND"/>
+					</let>
+				</when>
+				<otherwise>
+					<let>
+						<var n="number"/>
+						<clip pos="1" side="sl" part="num"/>
+					</let>
+				</otherwise>
+			</choose>
+			<let><var n="vb-tense"/><clip pos="1" side="sl" part="tense"/></let>
+			<let><var n="formality"/><lit-tag v="FD"/></let>
 			<out>
-				<chunk name="verb" case="caseFirstWord">
+				<chunk name="vb" case="caseFirstWord">
 					<tags>
-						<tag><lit-tag v="default"/></tag>
+						<tag><lit-tag v="SV"/></tag>
+						<tag><var n="vb-tense"/></tag>
+						<tag><var n="person"/></tag>
+						<tag><var n="formality"/></tag>
+						<tag><var n="number"/></tag>
 					</tags>
 					<lu>
 						<clip pos="3" side="tl" part="lem"/>
 						<lit-tag v="v"/>
 						<clip pos="3" side="tl" part="trans"/>
 						<lit-tag v="neg"/>
-						<clip pos="1" side="tl" part="tense"/>
-						<clip pos="1" side="tl" part="pers"/>
-						<clip pos="1" side="tl" part="frm"/>
-						<clip pos="1" side="tl" part="num"/>
+						<clip pos="1" side="tl" part="tense" link-to="2"/>
+						<clip pos="1" side="tl" part="pers" link-to="3"/>
+						<clip pos="1" side="tl" part="frm" link-to="4"/>
+						<clip pos="1" side="tl" part="num" link-to="5"/>
 					</lu>
 				</chunk>
 			</out>
 		</action>
 	</rule>
 
-	<rule comment="REGLA: mark definite verb object with acc">
+	<rule comment="REGLA: det noun">
+		<pattern>
+			<pattern-item n="definites"/>
+			<pattern-item n="noun"/>
+		</pattern>
+		<action>
+			<out>
+				<chunk name="SN" case="caseFirstWord">
+					<tags>
+						<tag><lit-tag v="def"/></tag>
+						<tag><lit-tag v="CD"/></tag>
+					</tags>
+					<lu>
+						<clip pos="2" side="tl" part="lem"/>
+						<clip pos="2" side="tl" part="pos"/>
+						<clip pos="2" side="tl" part="num"/>
+						<clip pos="2" side="tl" part="poss"/>
+						<clip pos="2" side="tl" part="frm"/>
+						<clip pos="2" side="tl" part="case" link-to="2"/>
+					</lu>
+				</chunk>
+			</out>
+		</action>
+	</rule>
+
+
+	<!-- rule comment="REGLA: mark definite verb object with acc">
 		<pattern>
 			<pattern-item n="verb"/>
 			<pattern-item n="definites"/>
@@ -221,7 +327,7 @@
 				</chunk>
 			</out>
 		</action>
-	</rule>
+	</rule -->
 
 	<!-- rule comment="REGLA: subj v → v with person and number tags">
 		<pattern>
