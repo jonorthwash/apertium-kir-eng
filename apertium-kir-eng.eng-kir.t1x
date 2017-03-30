@@ -111,14 +111,70 @@
 		<def-var n="formality"/>
 	</section-def-vars>
 
-  <section-def-macros>
-	<def-macro n="test" npar="1">
-		<let>
-			<var n="number"/>
-			<lit v=""/>
-		</let>
-	</def-macro>
-  </section-def-macros>
+	<section-def-macros>
+		<def-macro n="test" npar="1">
+			<let>
+				<var n="number"/>
+				<lit v=""/>
+			</let>
+		</def-macro>
+
+		<def-macro n="f_aux2" npar="2"> <!-- npar=2 is number of parameters is 2 -->
+			<choose>
+				<when>
+					<test>
+						<equal>
+							<clip pos="1" side="sl" part="pers"/>
+							<lit v=""/>
+						</equal>
+					</test>
+					<let>
+						<var n="person"/>
+						<lit-tag v="PD"/>
+					</let>
+				</when>
+				<otherwise>
+					<let>
+						<var n="person"/>
+						<clip pos="1" side="sl" part="pers"/>
+					</let>
+				</otherwise>
+			</choose>
+			<choose>
+				<when>
+					<test>
+						<equal>
+							<clip pos="1" side="sl" part="num"/>
+							<lit v=""/>
+						</equal>
+					</test>
+					<let>
+						<var n="number"/>
+						<lit-tag v="ND"/>
+					</let>
+				</when>
+				<otherwise>
+					<let>
+						<var n="number"/>
+						<clip pos="1" side="sl" part="num"/>
+					</let>
+				</otherwise>
+			</choose>
+			<let><var n="vb-trans"/><clip pos="2" side="tl" part="trans"/></let>
+			<choose>
+				<when>
+					<test>
+						<equal caseless="yes"><clip pos="1" side="sl" part="lem"/><lit v="will"/></equal>
+					</test>
+					<let><var n="vb-tense"/><lit-tag v="fut"/></let>
+				</when>
+				<otherwise>
+					<let><var n="vb-tense"/><clip pos="1" side="sl" part="tense"/></let>
+				</otherwise>
+			</choose>
+			<let><var n="formality"/><lit-tag v="FD"/></let>
+		</def-macro>
+	</section-def-macros>
 
   <section-rules>
 	<rule comment="REGLA: SENT">
@@ -200,6 +256,8 @@
 		</action>
 	</rule>
 
+
+
 	<rule comment="REGLA: do/did not v">
 		<pattern>
 			<pattern-item n="vaux_do"/>
@@ -207,49 +265,10 @@
 			<pattern-item n="verb_inf"/>
 		</pattern>
 		<action>
-			<choose>
-				<when>
-					<test>
-						<equal>
-							<clip pos="1" side="sl" part="pers"/>
-							<lit v=""/>
-						</equal>
-					</test>
-					<let>
-						<var n="person"/>
-						<lit-tag v="PD"/>
-					</let>
-				</when>
-				<otherwise>
-					<let>
-						<var n="person"/>
-						<clip pos="1" side="sl" part="pers"/>
-					</let>
-				</otherwise>
-			</choose>
-			<choose>
-				<when>
-					<test>
-						<equal>
-							<clip pos="1" side="sl" part="num"/>
-							<lit v=""/>
-						</equal>
-					</test>
-					<let>
-						<var n="number"/>
-						<lit-tag v="ND"/>
-					</let>
-				</when>
-				<otherwise>
-					<let>
-						<var n="number"/>
-						<clip pos="1" side="sl" part="num"/>
-					</let>
-				</otherwise>
-			</choose>
-			<let><var n="vb-trans"/><clip pos="3" side="tl" part="trans"/></let>
-			<let><var n="vb-tense"/><clip pos="1" side="sl" part="tense"/></let>
-			<let><var n="formality"/><lit-tag v="FD"/></let>
+			<call-macro n="f_aux2">
+				<with-param pos="1"/>
+				<with-param pos="3"/> <!-- this will be pos2 in the macro -->
+			</call-macro>
 			<out>
 				<chunk name="vb" case="caseFirstWord">
 					<tags>

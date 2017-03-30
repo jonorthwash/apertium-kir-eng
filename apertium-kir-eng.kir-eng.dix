@@ -124,6 +124,7 @@
       <e><p><l>көр<s n="v"/><s n="tv"/></l><r>see<s n="vblex"/></r></p></e>
 
       <e r="RL"><p><l></l><r>do<s n="vaux"/></r></p></e>
+      <e r="RL"><p><l></l><r>will<s n="vaux"/></r></p></e>
       <e r="RL"><p><l></l><r>not<s n="adv"/></r></p></e>
       
 		<e><p><l>мен<s n="prn"/></l><r>prpers<s n="prn"/></r></p><!-- par n="pers"/ --></e>
